@@ -3,12 +3,10 @@
 
 int main() {
     Console console(40, 20);
-    int characterX = 20, characterY = 10;
+    int characterX = 0, characterY = 0;
     int backgroundX = 0, backgroundY = 0, backgroundHDelta = 2, backgroundVDelta = 1, backgroundLastMoved = 0;
 
     console.setWindowTitle("Moving Example");
-    console.setColorTable(1, RGB(174, 198, 207));
-    console.setColorTable(2, RGB(204, 84, 96));
     console.hideCursor();
 
     while (1) {
@@ -21,8 +19,8 @@ int main() {
                 }
                 break;
             case 80:
-                if (++characterY > 19) {
-                    characterY = 19;
+                if (++characterY > 17) {
+                    characterY = 17;
                 }
                 break;
             case 75:
@@ -31,19 +29,17 @@ int main() {
                 }
                 break;
             case 77:
-                if (++characterX > 35) {
-                    characterX = 35;
+                if (++characterX > 37) {
+                    characterX = 37;
                 }
                 break;
             }
         }
 
-        console.fill(' ', 0x12);
-
-        // Move background (interval: 30ms)
+        // Move background (interval: 50ms)
         int now = GetTickCount();
 
-        if (now - backgroundLastMoved >= 30) {
+        if (now - backgroundLastMoved >= 50) {
             backgroundX += backgroundHDelta;
             backgroundY += backgroundVDelta;
 
@@ -69,19 +65,20 @@ int main() {
             backgroundLastMoved = now;
         }
 
-        // Draw background
-        console.setCursorPos(backgroundX, 0);
-        console.setTextAttr(0x21);
-        console.print("  \n  \n  \n  \n  \n  \n  \n  \n  \n  \n  \n  \n  \n  \n  \n  \n  \n  \n  \n  ");
+        console.fill(' ', 0x02);
 
-        console.setCursorPos(0, backgroundY);
-        console.setTextAttr(0x21);
-        console.print("                                        ");
+        // Draw background
+        console.fill(' ', 0x12, backgroundX, 0, 2, 20);
+        console.fill(' ', 0x12, 0, backgroundY, 40, 1);
+        console.fill(' ', 0x12, 38 - backgroundX, 0, 2, 20);
+        console.fill(' ', 0x12, 0, 19 - backgroundY, 40, 1);
+
+        // Change color tables
+        console.setColorTable(1, RGB(backgroundX * 6, 100, 228 - backgroundX * 6));
+        console.setColorTable(2, RGB(0, 114 + backgroundX * 3, 0));
 
         // Draw character (Transparent mode)
-        console.setCursorPos(characterX, characterY);
-        console.setTextAttr(0x12);
-        console.printTrans("(o_o)");
+        console.drawText(characterX, characterY, " O \n/|)\n/ )");
 
         console.update();
         Sleep(5);
