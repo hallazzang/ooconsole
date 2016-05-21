@@ -1,6 +1,8 @@
 #include "ooconsole/console.hpp"
 
 int main() {
+    using namespace OOConsole;
+
     Console console(40, 20);
     int colorIndex = 0, colorDelta = 1;
 

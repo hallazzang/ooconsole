@@ -2,6 +2,8 @@
 #include "ooconsole/console.hpp"
 
 int main() {
+    using namespace OOConsole;
+
     Console console(40, 20);
     int characterX = 0, characterY = 0;
     int backgroundX = 0, backgroundY = 0, backgroundHDelta = 2, backgroundVDelta = 1, backgroundLastMoved = 0;
